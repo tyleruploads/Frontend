@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tylers TTS Engine</title>
+        <style>
+  body {
+    padding-left: 3vh;
+    padding-top: 3vh;
+    font-family: sans-serif;
+    height: 100vh;
+    margin: 0;
+  }
+  p {
+    font-size: 1.2em;
+  }
+  .val {
+    font-weight: bold;
+    color: #007bff; 
+  }
+  .slide {
+    width: 80%;
+    max-width: 300px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+    <input type="text" id="entry">
+    <button onclick="startSpeak()">Speak</button>
+    <br>
+    <div id='buttons'>
+        <p>Speed: <span class='val' id='sliderSpeedVal'>1</span></p>
+        <br>
+        <input class='slide' id='sliderSpeed' type='range' step='.1' min=.1 max=10 value=1>
+        <p>Volume: <span class='val' id='sliderVolVal'>1</span></p>
+        <br>
+        <input class='slide' id='sliderVolume' type='range' step='.1' min=.1 max=1 value=1>
+        <p>Pitch: <span class='val' id='sliderPitchVal'>1</span></p>
+        <br>
+        <input class='slide' id='sliderPitch' type='range' step='.1' min=0 max=2 value=1>
+        </div>
+</body>
+<script>
+    const speed = document.getElementById('sliderSpeed')
+    const volume = document.getElementById('sliderVolume')
+    const pitch = document.getElementById('sliderPitch')
+    let speedVal = 1
+    let volumeVal = 1
+    let pitchVal = 1
+    
+    updateValues = () => {
+        speedVal = speed.value;
+        volumeVal = volume.value;
+        pitchVal = pitch.value;
+        document.getElementById('sliderSpeedVal').innerHTML = speedVal;
+        document.getElementById('sliderVolVal').innerHTML = volumeVal;
+        document.getElementById('sliderPitchVal').innerHTML = pitchVal;
+    }
+    const startSpeak = () => {
+        const textToSpeak = document.getElementById('entry')
+        if (textToSpeak) {
+        setTimeout(() => {
+        let message = new SpeechSynthesisUtterance() 
+        message.text = document.getElementById('entry').value
+        message.pitch = pitchVal
+        message.rate = speedVal
+        message.volume = volumeVal
+        window.speechSynthesis.speak(message)
+        }, 50);
+    };
+};
+
+    window.startSpeak = startSpeak;
+    speed.oninput = updateValues;
+    volume.oninput = updateValues;
+    pitch.oninput = updateValues;
+    window.onload = updateValues;
+</script>
+</html>

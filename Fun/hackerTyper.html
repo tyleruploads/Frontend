@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+    background-color: #000; /* Black background */
+    color: #00ff00; /* Green text */
+    font-family: 'Courier', monospace; /* Monospaced font */
+    font-size: 16px;
+    margin: 0;
+    padding: 20px;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+.container {
+    width: 100%;
+    /* Ensure the output container takes up available space */
+}
+
+/* Optional: Add a blinking cursor effect using CSS animation */
+#typer-output::after {
+    content: '|';
+    animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <pre id="typer-output"></pre>
+    </div>
+</body>
+<script>
+    let code;
+
+    fetch('hackerTyper.txt').then(r => r.text()).then(c => code = c)
+
+    output = document.getElementById('typer-output')
+    let charIndex = 0
+    let charsPerKey = 10
+
+    document.addEventListener('keydown', function(event) {
+        event.preventDefault()
+
+        if (charIndex < code.length) {
+            const nextChunk = code.substring(charIndex, charIndex + charsPerKey)
+            output.insertAdjacentText('beforeend', nextChunk)
+            charIndex += charsPerKey
+        }
+
+        window.scrollTo(0, document.body.scrollHeight)
+    })
+</script>
+</html>

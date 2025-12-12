@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Move with mouse</title>
+        <style>
+            body {
+                background-color: rgb(0, 0, 0);
+            }
+            #circle {
+                position: absolute;
+                width: 5vw;
+                height: 5vw;
+                left: calc(50vw - 2.5vw);
+                top: calc(50vh - 2.5vh);
+                background-color: rgb(255, 255, 255);
+                border-radius: 50%;
+                transition: none;
+            }
+        </style>
+    </head>
+<body>
+    <div id="circle"></div>
+</body>
+<script>
+    const circle = document.getElementById("circle");
+
+    
+    document.addEventListener("mousemove", function(event) {
+        const xMPos = event.clientX // Both stand for x and y Mouse Position
+        const yMPos = event.clientY // Both stand for x and y Mouse Position
+        
+        const rect = circle.getBoundingClientRect()
+        
+        const xCPos = rect.left + rect.width / 2
+        const yCPos = rect.top + rect.height / 2
+        
+        const distanceX = xMPos - xCPos
+        const distanceY = yMPos - yCPos
+        
+        const maxX = window.innerWidth - rect.width
+       const maxY = window.innerHeight - rect.height
+        
+        if (Math.abs(distanceX) < 10) {
+            const newLeft = xCPos - distanceX * 1; // Move away from mouse
+            circle.style.left = Math.max(0, Math.min(newLeft, maxX)) + "px";
+        } 
+        if (Math.abs(distanceY) < 10) {
+           const newTop = yCPos - distanceY * 1; // Move away from mouse
+           circle.style.top = Math.max(0, Math.min(newTop, maxY)) + "px";
+}
+        
+        circle.style.left = Math.max(0, Math.min(parseFloat(circle.style.left), maxX)) + "px";
+        circle.style.top  = Math.max(0, Math.min(parseFloat(circle.style.top),  maxY)) + "px";
+    })
+</script>
+</html>

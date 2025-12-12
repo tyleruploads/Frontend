@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Todo List</title>
+        <style>
+            h1 {
+                text-align: center;
+            }
+            div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: row;
+            }
+            #clearList {
+                display: flex;
+                justify-self: center;
+                align-self: center;
+            }
+            ul {
+                list-style-type: none;
+            }
+            ul button, li {
+                margin: 20px 20px;
+            }
+            hr {
+                color: black;
+                margin: 5px;
+                width: 100%;
+                flex-direction: row;
+                
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Todo List</h1>
+        <div id="adding">
+            <input id="usersInput" type="text" placeholder="Item">
+            <button id="usersAddButton">Add</button>
+        </div>
+        <button id="clearList">Clear List</button>
+        <ul id="usersList">
+            
+        </ul>
+    </body>
+<script>
+    const usersInput = document.getElementById("usersInput")
+    const usersAddButton = document.getElementById("usersAddButton")
+    const usersList = document.getElementById("usersList")
+    const clearList = document.getElementById("clearList")
+    
+    let counter = 0
+    
+    usersAddButton.addEventListener("click", () => {
+        counter += 1
+        const usersInputValue = usersInput.value
+        
+        const divContainer = document.createElement("div")
+        divContainer.id = `div${counter}`
+        divContainer.className = "listRelated"
+        const deleteButton = document.createElement("button")
+        deleteButton.id =  `${counter}`
+        deleteButton.textContent = "Delete"
+        const item = document.createElement("li")
+        item.id = `list${counter}`
+        item.textContent = usersInputValue
+        hrSep = document.createElement("hr")
+        hrSep.id = `hr${counter}`
+        hrSep.className = "listRelated"
+        
+        
+        deleteButton.addEventListener("click", (event) => {
+            divToDelete = document.getElementById(`div${event.target.id}`)
+            hrToDelete = document.getElementById(`hr${event.target.id}`)
+            divToDelete.remove()
+            hrToDelete.remove()
+        })
+        divContainer.appendChild(deleteButton)
+        divContainer.appendChild(item)
+        usersList.appendChild(divContainer)
+        usersList.appendChild(hrSep)
+        
+    })
+    clearList.addEventListener("click", () => {
+        document.querySelectorAll('hr').forEach(e => e.remove())
+        usersList.textContent = ""
+    })
+</script>
+</html>
